@@ -1,10 +1,12 @@
 # OP_HASH256
 
-Colección de scripts para ejecutar **transacciones puzzle** en la red de [Chaucha](https://ww.chaucha.cl)
+Colección de scripts para ejecutar **transacciones puzzle** en la red
+de [Chaucha](https://ww.chaucha.cl)
 
 ## Introducción
 
-La creación de una transacción de criptomonedas es considerada válida cuando la ejecución del [script](https://en.bitcoin.it/wiki/Script) entrega un valor
+La creación de una transacción de criptomonedas es considerada válida cuando la
+ejecución del [script](https://en.bitcoin.it/wiki/Script) entrega un valor
 verdadero (1), y es rechazada por la red al entregar un valor falso (0).
 
 Este script consta de dos elementos, el **ScriptPubKey** que está adjunto a la
@@ -23,9 +25,17 @@ El script diseñado es el siguiente:
 ```
 
 Este script solo es válido cuando se compara una palabra secreta (llamada
-*solución*) con respecto al doble hash de la misma, lo que permite diseñar una transacción válida dirigida a ningún destinatario explicito.
+*solución*) con respecto al doble hash de la misma, lo que permite diseñar una
+transacción válida dirigida a ningún destinatario explicito.
 
 ## Modo de uso
+
+Los ejemplos presentados fueron diseñados en Python v3.6 utilizando la librería
+[pybitcointools](https://github.com/vbuterin/pybitcointools/tree/aeb0a2bbb8bbfe421432d776c649650eaeb882a5).
+
+```
+pip3 install bitcoin
+```
 
 ### Creación de dirección de almacenamiento
 
