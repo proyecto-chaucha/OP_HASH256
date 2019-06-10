@@ -7,8 +7,7 @@ OP_HASH256 = 'aa'
 OP_PUSHDATA1 = '0a'
 
 COIN = 100000000
-base_fee = 0.000452
-fee_per_input = 0.000296
+ADDRESS_PREFIX = 50
 
 def broadcast(tx):
     url = 'https://explorer.cha.terahash.cl/api/tx/send'
@@ -29,7 +28,7 @@ def getBalance(addr):
     balance = 0
 
     for i in unspent:
-        if i['confirmations'] >= 6:
+        if i['confirmations'] >= 1:
             input = {'output' : i['txid'] + ':' + str(i['vout']),
                      'value' : i['satoshis'],
                      'address' : i['address']}

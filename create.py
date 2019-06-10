@@ -10,7 +10,7 @@ args = p.parse_args()
 
 def main():
     scriptpubkey = getScriptPubKey(args.solution)
-    addrP2SH = scriptaddr(scriptpubkey, 50)
+    addrP2SH = scriptaddr(scriptpubkey, ADDRESS_PREFIX)
     print('> P2SH Address: %s' % addrP2SH)
 
 

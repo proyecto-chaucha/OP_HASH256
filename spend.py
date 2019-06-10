@@ -19,28 +19,34 @@ def main():
     ins, balance = getBalance(addrP2SH)
     len_inputs = len(ins)
 
-    tx = ''
-
     if balance > 0:
-        # Fee
-        fee = round(base_fee + fee_per_input * len_inputs, 8)
-
         # Output
-        out_value = int((balance - fee) * COIN)
-        outs = [{'address' : args.address, 'value' : out_value}]
+        outs = [{'address' : args.address, 'value' : int(balance*COIN)}]
 
         # Make unsigned transaction
         tx = mktx(ins, outs)
 
-        # sign inputs
+        # Calculate fee
+        size = len(a2b_hex(tx))
+        fee = int((size/1024)*0.01*COIN) 
+        
+        # MAX FEE = 0.1 CHA
+        fee = 1e7 if fee > 1e7 else fee
+
+        # sign inputs + apply fee
         unpacked = deserialize(tx)
-        unpacked['ins'][0]['script'] = getHexLen(solution) + solution
-        unpacked['ins'][0]['script'] += getHexLen(scriptSig) + scriptSig
+        
+        for puzzle_input in unpacked['ins']:
+            puzzle_input['script'] = getHexLen(solution) + solution
+            puzzle_input['script'] += getHexLen(scriptSig) + scriptSig
+        
+        unpacked['outs'][0]['value'] -= fee
+        
         tx = serialize(unpacked)
 
         if len(tx) > 0:
             txid = broadcast(tx)
-            print('> Transaction broadcasted, %s' % txid.text)
+            print('> Transaction broadcasted, %s' % tx)
     else:
         print('> No funds :C')
 
